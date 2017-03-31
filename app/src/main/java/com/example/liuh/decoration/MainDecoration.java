@@ -93,8 +93,6 @@ public class MainDecoration extends RecyclerView.ItemDecoration{
         } else {
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
         }
-
-
     }
 
 }

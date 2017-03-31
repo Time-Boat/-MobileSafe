@@ -3,17 +3,17 @@ package com.example.liuh.customView;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
-import com.example.liuh.manager.NormalLinearLayoutManager;
 import com.socks.library.KLog;
-import com.yanzhenjie.recyclerview.swipe.SwipeMenuLayout;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 /**
  * Created by Administrator on 2017-01-03.
  */
 public class DragSwipeMenuRecyclerView extends SwipeMenuRecyclerView {
+
+
+    public static final String TAG = "DragSwipeMenuRecyclerView";
 
     public DragSwipeMenuRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -28,14 +28,16 @@ public class DragSwipeMenuRecyclerView extends SwipeMenuRecyclerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-
+        boolean b;
+        b = super.onTouchEvent(e);
+        KLog.d(TAG, "onTouchEvent: "+ b);
         return super.onTouchEvent(e);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
 
-        KLog.e("DragSwipeMenuRecyclerView", "e: "+ e.getAction());
+        KLog.d(TAG, "DragSwipeMenuRecyclerView: "+ e.getAction());
         switch(e.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -52,6 +54,7 @@ public class DragSwipeMenuRecyclerView extends SwipeMenuRecyclerView {
 
                 // 判断是否为偏向左右的滑动
                 if (Math.abs(nowX - mDownX) > Math.abs(nowY - mDownY)) {
+                    //设置这个Swipe是否能够侧滑
                     setItemViewSwipeEnabled(false);
                     KLog.e("DragSwipeMenuRecyclerView", "setItemViewSwipeEnabled(false))");
                     //当返回true时，事件将不会再向下传递，这个onTouch也不会再此次事件中再执行
@@ -72,5 +75,14 @@ public class DragSwipeMenuRecyclerView extends SwipeMenuRecyclerView {
         KLog.e("onInterceptTouchEvent",b = super.onInterceptTouchEvent(e));
         return b;
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event){
+        boolean b;
+        b = super.dispatchTouchEvent(event);
+        KLog.d(TAG, "dispatchTouchEvent: "+ b);
+        return super.dispatchTouchEvent(event);
+    }
+
 
 }

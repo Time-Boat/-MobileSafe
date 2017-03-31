@@ -40,9 +40,9 @@ import butterknife.ButterKnife;
  */
 public class SafeMainActivity extends BaseActivity {
 
-    private String[] functionTitle = {"手机防盗","通讯卫士","软件管家","进程管理","流量统计","手机杀毒","缓存清理","高级工具","设置中心"};
-    private String[] functionSubhead = {"防盗","通讯卫士","软件管家","进程管理","流量统计","手机杀毒","缓存清理","高级工具","设置中心"};
-    private int[] imageRid = {1,2,3,4,5,6,7,8,9};
+    private String[] functionTitle = {"手机防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "手机杀毒", "缓存清理", "高级工具", "设置中心"};
+    private String[] functionSubhead = {"防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "手机杀毒", "缓存清理", "高级工具", "设置中心"};
+    private int[] imageRid = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     // 控制ToolBar的变量
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
@@ -93,15 +93,15 @@ public class SafeMainActivity extends BaseActivity {
         List<FunctionAdapterEntity> data = new ArrayList<FunctionAdapterEntity>();
 
         int i = 0;
-        while(i<functionTitle.length){
+        while (i < functionTitle.length) {
             FunctionAdapterEntity f = new FunctionAdapterEntity();
             f.setTitle(functionTitle[i]);
 //            f.setSubhead(functionSubhead[i]);
             f.setSubhead("为了部落!!!!");
-            if(i%2==0){
-                f.setPic(BitmapFactory.decodeResource(this.getApplicationContext().getResources(),R.drawable.speed));
-            }else{
-                f.setPic(BitmapFactory.decodeResource(this.getApplicationContext().getResources(),R.drawable.folder));
+            if (i % 2 == 0) {
+                f.setPic(BitmapFactory.decodeResource(this.getApplicationContext().getResources(), R.drawable.speed));
+            } else {
+                f.setPic(BitmapFactory.decodeResource(this.getApplicationContext().getResources(), R.drawable.folder));
             }
 
 //            f.setPic(BitmapFactory.decodeResource(this.getApplicationContext().getResources(),imageRid[i]));
@@ -109,50 +109,50 @@ public class SafeMainActivity extends BaseActivity {
             data.add(f);
         }
 
-        mRcv.setAdapter(new FunctionAdapter(this, data, new FunctionAdapter.onRecyclerItemClickListener(){
+        mRcv.setAdapter(new FunctionAdapter(this, data, new FunctionAdapter.onRecyclerItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(SafeMainActivity.this,position+"",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SafeMainActivity.this, position + "", Toast.LENGTH_SHORT).show();
                 goFunction(position);
             }
         }));
-        mRcv.addItemDecoration(new MainDecoration(this,MainDecoration.VERTICAL_LIST));
+        mRcv.addItemDecoration(new MainDecoration(this, MainDecoration.VERTICAL_LIST));
     }
 
-    private void goFunction(int position){
+    private void goFunction(int position) {
         //可以用枚举类型
         Intent intent = null;
         switch (position) {
             case 0:
-                ShowToast.showToast(this,position+"");
+                ShowToast.showToast(this, position + "");
                 break;
             case 1:
-                ShowToast.showToast(this,position+"");
+                ShowToast.showToast(this, position + "");
                 break;
             case 2:
                 intent = new Intent(SafeMainActivity.this, AppManagerActivity.class);
                 startActivity(intent);
                 break;
             case 3:
-                ShowToast.showToast(this,position+"");
+                ShowToast.showToast(this, position + "");
                 break;
             case 4:
-                ShowToast.showToast(this,position+"");
+                ShowToast.showToast(this, position + "");
                 break;
             case 5:
-                ShowToast.showToast(this,position+"");
+                ShowToast.showToast(this, position + "");
                 break;
             case 6:
-                ShowToast.showToast(this,position+"");
+                ShowToast.showToast(this, position + "");
                 break;
             case 7:
-                ShowToast.showToast(this,position+"");
+                ShowToast.showToast(this, position + "");
                 break;
             case 8:
                 intent = new Intent(SafeMainActivity.this, SetCenterActivity.class);
                 break;
             default:
-                ShowToast.showToast(SafeMainActivity.this,"SafeMainActivity，default");
+                ShowToast.showToast(SafeMainActivity.this, "SafeMainActivity，default");
                 break;
         }
     }
@@ -197,27 +197,27 @@ public class SafeMainActivity extends BaseActivity {
     @Subscribe
     public void setContent(final BusEventData dataa) {
 
-        if(at!=null){
+        if (at != null) {
             at.stopthread();
         }
 
         this.data = dataa;
 //        dv.initData((int) data.getChildX(), (int) data.getChildY(), (int) data.getRadius() + 30, 9.0);
-        if(first){
-            layout=(LinearLayout) findViewById(R.id.root);
-            DrawView view=new DrawView(this);
+        if (first) {
+            layout = (LinearLayout) findViewById(R.id.root);
+            DrawView view = new DrawView(this);
             view.setTag("drawView");
             layout.invalidate();
             layout.addView(view);
             first = false;
         }
 
-        if(thread!=null){
+        if (thread != null) {
             thread.interrupt();
 //            thread.destroy();
         }
 
-        view = (DrawView)layout.findViewWithTag("drawView");
+        view = (DrawView) layout.findViewWithTag("drawView");
 
         at = new AnimationThread();
         at.start();
@@ -231,18 +231,20 @@ public class SafeMainActivity extends BaseActivity {
         public synchronized void stopthread() {
             runflag = false;
         }
+
         public synchronized boolean getrunflag() {
             return runflag;
         }
+
         public void run() {
             int i = 0;
-            while(runflag){
+            while (runflag) {
                 try {
                     Thread.sleep(15);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                view.initData((int)data.getChildX(),(int)data.getChildY(), (int) (data.getRadius()+20), (float) data.getDrawViewSize(),9.0,i--);//data.getDistance()
+                view.initData((int) data.getChildX(), (int) data.getChildY(), (int) (data.getRadius() + 20), (float) data.getDrawViewSize(), 9.0, i--);//data.getDistance()
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -257,29 +259,29 @@ public class SafeMainActivity extends BaseActivity {
         }
     }
 
-     @Override
-     public void onStart() {
-         super.onStart();
-         //注册到bus事件总线中
-         AppBus.getInstance().register(this);
-     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //注册到bus事件总线中
+        AppBus.getInstance().register(this);
+    }
 
-     @Override
-     public void onStop() {
-         super.onStop();
-         AppBus.getInstance().unregister(this);
-     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        AppBus.getInstance().unregister(this);
+    }
 
     private boolean isExit = false;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.e("onKeyDown","点击按钮:"+keyCode);
-        if(keyCode == KeyEvent.KEYCODE_BACK){
+        Log.e("onKeyDown", "点击按钮:" + keyCode);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (isExit) {
                 finish();
                 System.exit(0);
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "再按一次退出程序",
                         Toast.LENGTH_SHORT).show();
                 isExit = true;
@@ -292,7 +294,7 @@ public class SafeMainActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                         isExit = false;
-                        Log.e("onKeyDown","线程执行完毕:"+isExit);
+                        Log.e("onKeyDown", "线程执行完毕:" + isExit);
                     }
                 }).start();
                 return false;

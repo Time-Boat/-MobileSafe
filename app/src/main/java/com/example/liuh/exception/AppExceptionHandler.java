@@ -63,7 +63,6 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
     public void setCrashTip(String crashTip) {
         this.crashTip = crashTip;
     }
-
     /**
      * 保证只有一个CrashHandler实例
      */
